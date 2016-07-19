@@ -1,12 +1,7 @@
-//Installed node modules: jquery underscore request express jade shelljs passport http sys lodash async mocha chai sinon sinon-chai moment connect validator restify ejs ws co when helmet wrench brain mustache should backbone forever debug
-
 if(_ === undefined){
     var _ = require('lodash');
 }
 
-function log(){
-    
-}
 
 for (var i = 0; i < 21; i++) {
     console.log('---', i, '---');
@@ -16,41 +11,22 @@ for (var i = 0; i < 21; i++) {
 
 // testSuffleSingleList();
 
-function testSuffle() {
-    for (var i = 0; i < 21; i++) {
-
-        console.log('====== For :', i, ' ======');
-        var items = _.range(0, i, 1); // 18
-
-        console.log('\nitems  =>      ', items, items.length);
-
-        var indices = getRandomiseIndexes(items);
-        var randomValues = getFormattedRandomValues(items, indices);
 
 
-        console.log('values =>      ', randomValues, randomValues.length);
-        console.log('===================================================================\n');
-    }
-}
+// export default function shuffleItems(){
+//     return {
+//         getFormattedShuffleValues: getFormattedShuffleValues,
+//         getShuffleIndexes: getShuffleIndexes
+//     }
+// }
 
-function testSuffleSingleList() {
-    console.log('====== For : 0 ======');
-    var items = _.range(0, 5, 1); // 18
-
-    console.log('\nitems  =>      ', items, items.length);
-
-    var indices = getRandomiseIndexes(items);
-    var randomValues = getFormattedRandomValues(items, indices);
-
-
-    console.log('values =>      ', randomValues, randomValues.length);
-    console.log('===================================================================\n');
-
-}
-
-
-
-function getFormattedRandomValues(items, indices) {
+/**
+ * Set the actual values as per the shuffle indices/positions of given items
+ * @param  {[type]} items   [description]
+ * @param  {[type]} indices [description]
+ * @return {[type]}         [description]
+ */
+function getFormattedShuffleValues(items, indices) {
     var out = [];
     _.forEach(indices, function(v, i) {
         out.push(items[v]);
@@ -58,10 +34,17 @@ function getFormattedRandomValues(items, indices) {
     return out;
 }
 
-function getRandomiseIndexes(items, maxLength) {
+/**
+ * Get the shuffle indices of the give length of unique items array
+ * 
+ * @param  {[type]} items     It is an unique items array
+ * @param  {[type]} maxLength No of items in the output array
+ * @return {[type]}           [description]
+ */
+function getShuffleIndexes(items, maxLength) {
 
     var inputList = [];
-    var finalList = []; // 18
+    var finalList = []; 
     var afterSuffle = [];
 
     maxLength = maxLength || 18;
@@ -82,7 +65,6 @@ function getRandomiseIndexes(items, maxLength) {
             indices = indices.splice(0, noOfWordsToRepeat);
             indices = _.flattenDeep([_.range(0, items.length), indices]);
             indices = shuffle(indices);
-            // indices = [ 3, 4, 1, 11, 5, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ];
 
             inputList = _.clone(indices);
             afterSuffle = inputList;
@@ -107,7 +89,11 @@ function getRandomiseIndexes(items, maxLength) {
     return finalList;
 }
 
-
+/**
+ * Remove repeated values from each other adjacents.
+ * @param  {[type]} a [description]
+ * @return {[type]}   [description]
+ */
 function removeAdjacentRepeatation(a) {
     var l = a.length;
     var output = [];
@@ -126,6 +112,8 @@ function removeAdjacentRepeatation(a) {
                 var s = _.takeRight(a, l - i - 1);
                 var sUniq = _.uniq(s);
 
+                // If there are more same repeated values then get more 
+                // different values from start of array
                 if (sUniq.length === 1) {
                     s = _.take(a, i - 1);
                 }
@@ -144,25 +132,47 @@ function removeAdjacentRepeatation(a) {
     return output;
 }
 
+/**
+ * Place the different value on start and remove duplicacy
+ * @param  {[type]} a     [description]
+ * @param  {[type]} start [description]
+ * @return {[type]}       [description]
+ *
+ */
 function shuffleWithoutStart(a, start) {
-    console.log('shuffle a =>', a);
+    // console.log('shuffle a =>', a);
+    
+    // Avoid infinute loop if there will be only one value in the array.
+    if(_.uniq(_.clone(a, true)).length === 1){
+        return a;
+    }
+
     a = _.shuffle(a);
     return (a.length > 1 && (start === a[0])) ? shuffleWithoutStart(a, start) : a;
 }
 
+/**
+ * Combine the previous and current shuffle values
+ * @param  {[type]} org      [description]
+ * @param  {[type]} rightArr [description]
+ * @return {[type]}          [description]
+ */
 function pushSuffleValues(org, rightArr) {
     var oo = _.clone(org, true);
-    var o = oo.splice(0, oo.length - rightArr.length);
+    var o  = oo.splice(0, oo.length - rightArr.length);
     return _.flatten([o, rightArr]);
 }
 
 /**
  * Fisher–Yates Shuffle Algorithm
+ * 
+ * https://bost.ocks.org/mike/shuffle/
+ * second last 
+ * 
  * @param  {[type]} array [description]
  * @return {[type]}       [description]
  */
 function shuffle(arr) {
-    // https://bost.ocks.org/mike/shuffle/
     var m = arr.length,
         t, i;
 
@@ -179,4 +189,44 @@ function shuffle(arr) {
     }
 
     return arr;
+}
+
+/**
+ * A small test utility
+ * @return {[type]} [description]
+ */
+function testSuffleSingleList() {
+    console.log('====== For : 0 ======');
+    var items = _.range(0, 5, 1); // 18
+
+    console.log('\nitems  =>      ', items, items.length);
+
+    var indices = getShuffleIndexes(items);
+    var randomValues = getFormattedShuffleValues(items, indices);
+
+
+    console.log('values =>      ', randomValues, randomValues.length);
+    console.log('===================================================================\n');
+
+}
+
+/**
+ * Test for the many times
+ * @return {[type]} [description]
+ */
+function testSuffle() {
+    for (var i = 0; i < 21; i++) {
+
+        console.log('====== For :', i, ' ======');
+        var items = _.range(0, i, 1); // 18
+
+        console.log('\nitems  =>      ', items, items.length);
+
+        var indices = getShuffleIndexes(items);
+        var randomValues = getFormattedShuffleValues(items, indices);
+
+
+        console.log('values =>      ', randomValues, randomValues.length);
+        console.log('===================================================================\n');
+    }
 }

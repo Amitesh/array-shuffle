@@ -1,4 +1,4 @@
-if(_ === undefined){
+if (_ === undefined) {
     var _ = require('lodash');
 }
 
@@ -44,7 +44,7 @@ function getFormattedShuffleValues(items, indices) {
 function getShuffleIndexes(items, maxLength) {
 
     var inputList = [];
-    var finalList = []; 
+    var finalList = [];
     var afterSuffle = [];
 
     maxLength = maxLength || 18;
@@ -141,9 +141,9 @@ function removeAdjacentRepeatation(a) {
  */
 function shuffleWithoutStart(a, start) {
     // console.log('shuffle a =>', a);
-    
+
     // Avoid infinute loop if there will be only one value in the array.
-    if(_.uniq(_.clone(a, true)).length === 1){
+    if (_.uniq(_.clone(a, true)).length === 1) {
         return a;
     }
 
@@ -159,7 +159,7 @@ function shuffleWithoutStart(a, start) {
  */
 function pushSuffleValues(org, rightArr) {
     var oo = _.clone(org, true);
-    var o  = oo.splice(0, oo.length - rightArr.length);
+    var o = oo.splice(0, oo.length - rightArr.length);
     return _.flatten([o, rightArr]);
 }
 

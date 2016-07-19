@@ -8,7 +8,7 @@ function log(){
     
 }
 
-for (var i = 0; i < 51; i++) {
+for (var i = 0; i < 21; i++) {
     console.log('---', i, '---');
     testSuffle();
     console.log('--- # ', i, '---');
@@ -17,7 +17,7 @@ for (var i = 0; i < 51; i++) {
 // testSuffleSingleList();
 
 function testSuffle() {
-    for (var i = 0; i < 51; i++) {
+    for (var i = 0; i < 21; i++) {
 
         console.log('====== For :', i, ' ======');
         var items = _.range(0, i, 1); // 18

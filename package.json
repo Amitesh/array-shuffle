@@ -1,0 +1,28 @@
+{
+  "name": "array-shuffle",
+  "version": "1.0.0",
+  "description": "Shuffle an array of unique items using Fisher–Yates Shuffle algorithm. This implementation is optimize to avoid adjacent item repetition.",
+  "main": "shuffle.js",
+  "scripts": {
+    "test": "node shuffle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amitesh/array-shuffle.git"
+  },
+  "keywords": [
+    "array",
+    "javascript",
+    "shuffle",
+    "random"
+  ],
+  "author": "Amitesh Kumar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Amitesh/array-shuffle/issues"
+  },
+  "homepage": "https://github.com/Amitesh/array-shuffle#readme",
+  "devDependencies": {
+    "lodash": "^4.13.1"
+  }
+}
